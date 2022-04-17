@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<script type="text/javascript">
+    (function () {
+        // only want one resizer on the page
+        if (document.documentElement.className.indexOf("g-resizer-v3-init") > -1) return;
+        document.documentElement.className += " g-resizer-v3-init";
+        // require IE9+
+        if (!("querySelector" in document)) return;
+        function resizer() {
+            var elements = Array.prototype.slice.call(document.querySelectorAll(".g-artboard[data-min-width]")),
+                widthById = {};
+            elements.forEach(function (el) {
+                var parent = el.parentNode,
+                    width = widthById[parent.id] || parent.getBoundingClientRect().width,
+                    minwidth = el.getAttribute("data-min-width"),
+                    maxwidth = el.getAttribute("data-max-width");
+                widthById[parent.id] = width;
+
+                if (+minwidth <= width && (+maxwidth >= width || maxwidth === null)) {
+                    el.style.display = "block";
+                } else {
+                    el.style.display = "none";
+                }
+            });
+            try {
+                if (window.parent && window.parent.$) {
+                    window.parent.$("body").trigger("resizedcontent", [window]);
+                }
+                if (window.require) {
+                    require(['foundation/main'], function () {
+                        require(['shared/interactive/instances/app-communicator'], function (AppCommunicator) {
+                            AppCommunicator.triggerResize();
+                        });
+                    });
+                }
+            } catch (e) { console.log(e); }
+        }
+
+        document.addEventListener('DOMContentLoaded', resizer);
+        // feel free to replace throttle with _.throttle, if available
+        window.addEventListener('resize', throttle(resizer, 200));
+
+        function throttle(func, wait) {
+            // from underscore.js
+            var _now = Date.now || function () { return new Date().getTime(); },
+                context, args, result, timeout = null, previous = 0;
+            var later = function () {
+                previous = _now();
+                timeout = null;
+                result = func.apply(context, args);
+                if (!timeout) context = args = null;
+            };
+            return function () {
+                var now = _now(), remaining = wait - (now - previous);
+                context = this;
+                args = arguments;
+                if (remaining <= 0 || remaining > wait) {
+                    if (timeout) {
+                        clearTimeout(timeout);
+                        timeout = null;
+                    }
+                    previous = now;
+                    result = func.apply(context, args);
+                    if (!timeout) context = args = null;
+                } else if (!timeout && options.trailing !== false) {
+                    timeout = setTimeout(later, remaining);
+                }
+                return result;
+            };
+        }
+
+
+    })();
+</script>
+
+<head>
+    <title>Homeless 311 Complaints 2020</title>
+    <meta property="og:title" content="Homeless 311 Complaints 2020">
+    <meta property="og:description"
+        content="Looking at the breakdown between the kinds of reasons behind homeless encampment 311 complaints in NYC.">
+    <meta property="og:type" content="article">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+        .header-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100%;
+            gap: 1em;
+        }
+
+        .row-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100%;
+            gap: 3em;
+        }
+
+        .column-container {
+            display: flex;
+            flex-direction: column;
+            flex-basis: 100%;
+            flex: 1;
+            gap: 10em;
+        }
+
+        @media (max-width: 768px) {
+            .row-container {
+                flex-direction: column;
+            }
+        }
+
+        /* mobile */
+
+        @media (max-width:700px) {
+
+            .chart-row {
+                display: block;
+            }
+
+            .chart-row .chart {
+                padding: 0;
+            }
+
+            .photo-section {
+                display: block;
+            }
+
+            .photo {
+                padding: 0;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header-container">
+        <img src="pexels-photo-2783232.jpeg"
+            style="width:100vw; height:60vh; margin-left:-10px; margin-right: -10px; margin-top: 0px; margin-bottom: 0px; max-width: 100vw; object-fit: cover;"
+            alt="Encampment">
+        <h6>Image Credit:
+            <a href="https://www.pexels.com/photo/houses-near-concrete-road-2783232/">Pexels</a>
+        </h6>
+    </div>
+
+    <div class="row-container">
+        <h1>Decrease in Homeless Encampment 311 Calls in NYC</h1>
+    </div>
+
+    <div class="row-container">
+        <h4>by Jui Sarwate</h4>
+    </div>
+
+    <div class="row-container">
+        <div class="column-container">
+            <iframe title="Homeless Encampment 311 Calls by Borough" aria-label="Column Chart"
+                id="datawrapper-chart-10anG" src="https://datawrapper.dwcdn.net/10anG/1/" scrolling="no" frameborder="0"
+                style="width: 0; min-width: 100% !important; border: none;" height="483"></iframe>
+            <script
+                type="text/javascript">!function () { "use strict"; window.addEventListener("message", (function (e) { if (void 0 !== e.data["datawrapper-height"]) { var t = document.querySelectorAll("iframe"); for (var a in e.data["datawrapper-height"]) for (var r = 0; r < t.length; r++) { if (t[r].contentWindow === e.source) t[r].style.height = e.data["datawrapper-height"][a] + "px" } } })) }();</script>
+        </div>
+        <div class="column-container">
+            <iframe title="Homeless Encampment 311 Call Locations 2010-2020" aria-label="Stacked Bars"
+                id="datawrapper-chart-GGLlH" src="https://datawrapper.dwcdn.net/GGLlH/2/" scrolling="no" frameborder="0"
+                style="width: 0; min-width: 100% !important; border: none;" height="444"></iframe>
+            <script
+                type="text/javascript">!function () { "use strict"; window.addEventListener("message", (function (e) { if (void 0 !== e.data["datawrapper-height"]) { var t = document.querySelectorAll("iframe"); for (var a in e.data["datawrapper-height"]) for (var r = 0; r < t.length; r++) { if (t[r].contentWindow === e.source) t[r].style.height = e.data["datawrapper-height"][a] + "px" } } })) }();</script>
+        </div>
+    </div>
+
+    <div class="row-container">
+        <p>
+            The number of 311 complaints in New York City related to homeless encampments dropped by over 90% from 2019
+            to 2020. The reportable issue of homeless encampments has remained an option during the pandemic even though
+            the number of complaints dropped drastically from over 7000 complaints in 2019 to less than 200 in 2020.
+            This coincides with the start of the Covid-19 pandemic when fewer people were leaving their homes to go
+            outside and subway commutes were relatively nonexistent.
+        </p>
+    </div>
+</body>
+
+</html>
